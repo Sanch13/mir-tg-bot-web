@@ -1,0 +1,12 @@
+services:
+  bot:
+    image: miran2025/child-day-2025:latest
+    container_name: bot-child-day-2025
+    volumes:
+      - ./logs:/app/logs
+      - ./excel:/app/excel
+      - ./registration.db:/app/registration.db
+    command: "uv run -m src.run_bot"
+    env_file:
+      - .env
+    restart: unless-stopped
