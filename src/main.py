@@ -2,27 +2,28 @@ import asyncio
 import logging
 import sys
 
-from aiogram import Dispatcher, Bot
-from aiogram.exceptions import TelegramUnauthorizedError, TelegramNetworkError
+from aiogram import Bot, Dispatcher
+from aiogram.exceptions import TelegramNetworkError, TelegramUnauthorizedError
 
-from src.handlers.start import router as start_router
-from src.config.settings import settings
-
+from src.config import settings
+from src.infrastructure.db import init_db_engine
+from src.presentation.api.handlers.start import router as start_router
 
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    stream=sys.stdout
+    stream=sys.stdout,
 )
 
 logger = logging.getLogger(__name__)
 
 
 async def main():
+    init_db_engine()
     try:
         logger.info("=== BOT STARTING ===")
 
-        token = settings.API_TELEGRAM_TOKEN.get_secret_value()
+        token = settings.tg.API_TELEGRAM_TOKEN.get_secret_value()
 
         logger.info("Initializing bot...")
         bot = Bot(token=token)
@@ -43,11 +44,11 @@ async def main():
         logger.exception(f"💥 UNEXPECTED ERROR: {e}")
     finally:
         logger.info("=== BOT STOPPED ===")
-        if 'bot' in locals():
+        if "bot" in locals():
             await bot.session.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         logger.info("Application starting...")
         asyncio.run(main())

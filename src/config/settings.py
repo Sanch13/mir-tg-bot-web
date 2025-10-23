@@ -1,14 +1,12 @@
-from pydantic import SecretStr
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
+
+from src.config.db_settings import DBSettings
+from src.config.tg_settings import TGSettings
 
 
 class Settings(BaseSettings):
-    API_TELEGRAM_TOKEN: SecretStr
-
-    model_config = SettingsConfigDict(
-        env_file_encoding="utf-8",
-        extra="ignore",
-    )
+    db: DBSettings = DBSettings()
+    tg: TGSettings = TGSettings()
 
 
 settings = Settings()
