@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
 
 ARG UID
 ARG GID
@@ -17,9 +17,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 COPY src/ /app/src/
 
-RUN mkdir -p /app/logs \
-    /app/excel && \
-    groupadd -g $GID miran && \
+RUN groupadd -g $GID miran && \
     useradd -u $UID -g $GID -m miran && \
     chown -R miran:miran /app
 
