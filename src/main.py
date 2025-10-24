@@ -7,7 +7,7 @@ from aiogram.exceptions import TelegramNetworkError, TelegramUnauthorizedError
 
 from src.config import settings
 from src.infrastructure.db import init_db_engine
-from src.presentation.api.handlers.start import router as start_router
+from src.presentation.handlers.handlers import router as start_router
 
 logging.basicConfig(
     level=logging.DEBUG,
